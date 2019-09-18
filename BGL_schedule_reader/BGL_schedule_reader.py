@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests as req
 import time
+from datetime import date
 import re
 from GameEvent import GameEvent
 from ScheduleBot import ScheduleBot
@@ -13,8 +14,8 @@ def main():
         bot = ScheduleBot(token)
         #bot.Start()
 
-    day = list(time.localtime())
-    schedulePage = req.get(calendarBaseURL + time.strftime('%Y-%m-%d', tuple(day)))
+    day = date.today()
+    schedulePage = req.get(calendarBaseURL + day.isoformat())
     events = BeautifulSoup(schedulePage.text, 'lxml').find(class_='calendar-events')
     for event in events.find_all(class_='event-item'):
         ge = GameEvent(event)
