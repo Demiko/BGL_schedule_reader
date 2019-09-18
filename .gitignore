@@ -1,3 +1,6 @@
+# ignore token file
+token
+
 # visual studio related ignores
 .vs
 
