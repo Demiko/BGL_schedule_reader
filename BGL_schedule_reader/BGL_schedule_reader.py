@@ -3,10 +3,16 @@ import requests as req
 import time
 import re
 from GameEvent import GameEvent
+from ScheduleBot import ScheduleBot
 
 calendarBaseURL = "https://club.bgl.com.ua/calendar/"
 
 def main():
+    with open('token', 'r') as tokenFile:
+        token = tokenFile.read()
+        bot = ScheduleBot(token)
+        #bot.Start()
+
     day = list(time.localtime())
     schedulePage = req.get(calendarBaseURL + time.strftime('%Y-%m-%d', tuple(day)))
     events = BeautifulSoup(schedulePage.text, 'lxml').find(class_='calendar-events')
