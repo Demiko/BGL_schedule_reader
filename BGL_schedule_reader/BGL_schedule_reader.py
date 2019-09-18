@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests as req
 import time
 import re
-from game_event import GameEvent
+from GameEvent import GameEvent
 
 calendarBaseURL = "https://club.bgl.com.ua/calendar/"
 
