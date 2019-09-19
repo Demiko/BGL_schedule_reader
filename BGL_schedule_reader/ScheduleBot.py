@@ -6,6 +6,7 @@ from telegram.utils.helpers import escape_markdown
 from telegram.update import Update
 from telegram.ext.callbackcontext import CallbackContext
 from datetime import datetime, date
+from GameDay import GameDay
 
 class ScheduleBot:
     """A Telegram BGL schedule bot."""
@@ -24,12 +25,10 @@ class ScheduleBot:
 
     def Start(self):
         '''Start the bot. Will block until stopped!'''
-        #self.updater.start_polling()
-        dt = datetime.now()
-        self.logger.info("Started at %s", dt.isoformat())
-        #self.updater.idle()
-        dt = datetime.now()
-        self.logger.info("Stopped at %s", dt.isoformat())
+        self.updater.start_polling()
+        self.logger.info("Started at %s", datetime.now().isoformat())
+        self.updater.idle()
+        self.logger.info("Stopped at %s", datetime.now().isoformat())
 
     def _start(self, update: Update, context: CallbackContext):
         '''Message when /start is used.'''
@@ -43,13 +42,15 @@ class ScheduleBot:
 
     def _today(self, update: Update, context: CallbackContext):
         '''Handler for /today command'''
-        self.logger.exception('today handler is not implemented.')
-
+        d = date.today()
+        self.send_day(GameDay(d), update, context)
         pass
 
     def _tomorrow(self, update: Update, context: CallbackContext):
         '''Handler for /tomorrow command'''
-        self.logger.exception('tomorrow handler is not implemented.')
+        d = date.today()
+        d = d.replace(day=d.day+1)
+        self.send_day(GameDay(d), update, context)
         pass
 
     def _week(self, update: Update, context: CallbackContext):
@@ -57,4 +58,18 @@ class ScheduleBot:
         self.logger.exception('week handler is not implemented.')
         pass
 
+    def send_day(self, gameDay: GameDay, update: Update, context: CallbackContext):
+        reply:str = 'День: %s\n' % gameDay.date.strftime('%A %d.%m')
+        if not gameDay.events:
+            reply+='\n'
+            reply+='Запланированных игр нет.'
+        for event in gameDay.events:
+            reply += '\n'
+            reply += '**[%s](%s)** (%s)\n' % (event.title, event.link, event.type)
+            reply += '🕐: %s\n' % (event.time)
+            reply += 'Свободных мест: %s\n' % (event.seats)
+        reply = reply.strip('\n')
+        print(reply)
+        update.message.reply_markdown(reply, disable_web_page_preview=True)
+        pass
     pass
