@@ -28,6 +28,22 @@ class ScheduleBot:
 
     def _inline(self, update, context):
         '''Handler for inline queries'''
-        self.logger.exception('_inline handler is not implemented.')
+        self.logger.exception('inline handler is not implemented.')
         pass
+
+    def _today(self, update, context):
+        '''Handler for /today command'''
+        self.logger.exception('today handler is not implemented.')
+        pass
+
+    def _tomorrow(self, update, context):
+        '''Handler for /tomorrow command'''
+        self.logger.exception('tomorrow handler is not implemented.')
+        pass
+
+    def _week(self, update, context):
+        '''Handler for /week query'''
+        self.logger.exception('week handler is not implemented.')
+        pass
+
     pass
