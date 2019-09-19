@@ -8,6 +8,7 @@ calendarBaseURL = "https://club.bgl.com.ua/calendar/"
 class GameDay:
     """description of class"""
     def __init__(self, date: date):
+        self.date = date
         self.events = []
         schedulePage = req.get(calendarBaseURL + date.isoformat())
         events = BeautifulSoup(schedulePage.text, 'lxml').find(class_='calendar-events')
