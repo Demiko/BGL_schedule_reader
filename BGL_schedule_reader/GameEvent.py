@@ -7,7 +7,9 @@ class GameEvent:
         # glyphicons are noize
         for glyph in event.find_all(class_='glyphicon'): glyph.decompose()
 
-        try: self.id = re.search('\d+', event.find(class_='btn')['href']).group()
+        try:
+            self.id = re.search('\d+', event.find(class_='btn')['href']).group()
+            self.link = 'https://club.bgl.com.ua/calendar/event/%s' % self.id
         except: self.id = 'id not found'
 
         try: self.title = event.find(class_="event-item-title").a.text.strip()
